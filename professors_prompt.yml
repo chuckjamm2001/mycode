@@ -1,0 +1,11 @@
+---
+- name: How to prompt for variables
+  hosts: professors
+  gather_facts: no
+
+  vars_prompt:
+    - name: "ansible_ssh_pass"
+      prompt: "What is your ssh password?"
+      private: yes
+      confirm: yes
+
