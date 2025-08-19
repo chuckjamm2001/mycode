@@ -1,0 +1,16 @@
+---
+- name: Our first play
+  hosts: planetexpress
+  gather_facts: yes
+  connection: ansible.builtin.ssh
+
+  tasks:
+
+    - name: Install steam locomotive on Ubuntu machines
+      ansible.builtin.apt:
+        name: sl
+        state: present
+      become: yes # run as sudo
+      when: ansible_distribution == "Ubuntu" # NEW LINE
+
+
