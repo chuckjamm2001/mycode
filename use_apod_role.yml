@@ -1,0 +1,10 @@
+---
+- name: Use the APOD role to download images
+  hosts: localhost
+  roles:
+    - role: alta3.apod_tools.apod_downloader
+      vars:
+        apod_api_key: DEMO_KEY
+        apod_count: 5
+        apod_download_dir: /home/student/apod_images
+
