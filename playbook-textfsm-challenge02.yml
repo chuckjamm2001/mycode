@@ -1,0 +1,25 @@
+---
+- name: Challenge #2: Testing with TextFSM
+  hosts: localhost
+
+
+  vars:
+    results:
+      stdout: "{{ lookup('file', '/home/student//mycode/textfsm_examples/cisco_bgp_summary_example') }}"
+
+
+  tasks:
+  - name: Display the results from the "show ip bgp summary command"
+    debug:
+      var: results.stdout
+
+
+  - name: Mimic parsing output with TextFSM
+    set_fact:
+      bgpfacts: "{{ results.stdout | parse_cli_textfsm('/home/student/mycode/textfsm_examples/cisco_bgp_summary_template') }}"
+
+
+  - name: Show the router Router ID
+    debug:
+      var: bgpfacts[0].RouterID
+      

@@ -1,0 +1,28 @@
+---
+- name: Wedneday Challenge
+  hosts: planetexpress
+  connection: ssh
+  become: true
+  become_method: sudo
+
+  vars_files:
+    - ~/mycode/vars/wed_challenge_names.yml
+
+  tasks:
+    - name: install figlet
+      ansible.builtin.package:
+          name: figlet
+          state: present
+      become: yes
+
+    - name: Create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        shell: /bin/bash
+        create_home: true
+      loop: "{{ wednesday }}"
+
+    - name: State the complete status
+      debug:
+        msg: "I've completed the challenge!"
