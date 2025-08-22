@@ -1,0 +1,13 @@
+[1;35m[WARNING]: Collection community.general does not support Ansible version[0m
+[1;35m2.15.13[0m
+
+PLAY [Run this in check mode] **************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [idrac-host1][0m
+
+TASK [Get server information] **************************************************
+[0;31mfatal: [idrac-host1]: FAILED! => {"changed": false, "msg": "URL Error on GET request to 'https://10.0.0.89/redfish/v1/': '[Errno 113] No route to host'"}[0m
+
+PLAY RECAP *********************************************************************
+[0;31midrac-host1[0m                : [0;32mok=1   [0m changed=0    unreachable=0    [0;31mfailed=1   [0m skipped=0    rescued=0    ignored=0   

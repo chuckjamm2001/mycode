@@ -1,0 +1,58 @@
+---
+- name: Ansible Challenge 2
+  hosts: planetexpress:!farnsworth
+  connection: ssh
+  gather_facts: no
+
+  vars_prompt:
+    - name: "new_directory"
+      prompt: "What will be the name of the new directory?"
+      private: no
+      confirm: yes
+      default: "new_default"
+
+  tasks:
+    - name: Create the new directory
+      become_user: root
+      become: true
+      file:
+        path: "/home/{{ fileuser }}/date_info/{{ new_directory }}"
+        state: directory
+        owner: "{{ fileuser }}"
+        group: "{{ fileuser }}"
+        mode: '0755'
+
+    - name: Get the current date
+      command: date +"%Y-%m-%d"
+      register: result
+
+    - name: Set a fact for the current date
+      set_fact:
+        date_now: "{{ result.stdout }}"
+
+    - name: Create a file called today.txt and copy a date into the file
+      copy:
+        dest: "/home/{{ fileuser }}/date_info/{{ new_directory }}/today.txt"
+        content: "{{ date_now }}\n"
+
+#    - name: Asset directory and file exist with correct content
+#      assert:
+#        that:
+#          - file:
+#              path: "/home/data_info/tomorrow"
+#              state: directory
+#          - file:
+#              path: "/home/data_info/tomorrow/today.txt"
+#              state: file
+#          - "'2025-08-22' in lookup('file', '/home/data_info/tomorrow/today.txt')"
+#        fail_msg: "Directory, file, or file content verification failed!"
+#        success_msg: "Verification passed: directory, file, and content are correct."
+
+    - name: Verification command
+      command: cat date_info/tomorrow/today.txt
+      register: verification
+
+    - name: Display verifications
+      debug:
+        var: verification
+
